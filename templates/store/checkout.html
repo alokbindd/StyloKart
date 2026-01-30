@@ -10,7 +10,8 @@
           <div class="card">
             <div class="card-body">
               <h4 class="card-title mb-4">Billing Address</h4>
-              <form action="">
+              <form action="" method="POST">
+                {% csrf_token %}
                 <div class="form-row">
                   <div class="col form-group">
                     <label for="">First Name</label>
@@ -61,25 +62,24 @@
                     <textarea name="order_note" class="form-control"></textarea>
                   </div>
                 </div>
-              </form>
+              </div>
             </div>
-          </div>
-          <!-- card.// -->
-        </aside>
-        <!-- col.// -->
-        <aside class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              <table class="table table-borderless table-shopping-cart">
-                <thead class="text-muted">
-                  <tr class="small text-uppercase">
-                    <th scope="col">Product</th>
-                    <th scope="col" width="120">Quantity</th>
-                    <th scope="col" width="120">Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for cart_item in cart_items %}
+            <!-- card.// -->
+          </aside>
+          <!-- col.// -->
+          <aside class="col-lg-6">
+            <div class="card">
+              <div class="card-body">
+                <table class="table table-borderless table-shopping-cart">
+                  <thead class="text-muted">
+                    <tr class="small text-uppercase">
+                      <th scope="col">Product</th>
+                      <th scope="col" width="120">Quantity</th>
+                      <th scope="col" width="120">Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for cart_item in cart_items %}
                     <tr>
                       <td>
                         <figure class="itemside align-items-center">
@@ -90,9 +90,9 @@
                             <a href="{{ cart_item.product.get_url }}" class="title text-dark"> {{ cart_item.product.product_name }} </a>
                             <p class="text-muted small">
                               {% if cart_item.variations.all %}
-                                {% for item in cart_item.variations.all %}
-                                  {{ item.variation_category |capfirst }} : {{ item.variation_value | capfirst }} <br />
-                                {% endfor%}
+                              {% for item in cart_item.variations.all %}
+                              {{ item.variation_category |capfirst }} : {{ item.variation_value | capfirst }} <br />
+                              {% endfor%}
                               {% endif %}
                             </p>
                           </figcaption>
@@ -116,13 +116,12 @@
                         <!-- price-wrap .// -->
                       </td>
                     </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-              <a href="./place-order.html" class="btn btn-primary btn-block">
-                Checkout
-              </a>
-              <a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Shopping</a>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                <button class="btn btn-primary btn-block" type="submit" name="submit">Place Order</button>
+                <a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Shopping</a>
+              </form>
             </div>
             <!-- card-body.// -->
           </div>
