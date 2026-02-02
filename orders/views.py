@@ -3,6 +3,9 @@ from carts.models import CartItem
 from .forms import OrderForm
 from .models import Order, Payment, OrderProduct
 import datetime, json
+from store.models import Product
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 
 from django.http import HttpResponse
 
@@ -47,6 +50,24 @@ def payments(request):
         orderproduct.variations.set(product_variations)
         orderproduct.save()
 
+        # reduced the quantity of the sold products
+        product = Product.objects.get(id=item.product_id)
+        product.stock -= item.quantity
+        product.save()
+
+    # clear cart
+    CartItem.objects.filter(user=current_user).delete() 
+    
+    # Send order recieved email to customer
+    mail_subject = 'Thank you for your order'
+    message = render_to_string('orders/order_received_email.html', {
+        'user': current_user,
+        'order': order,
+    })
+    to_email = current_user.email
+    send_email = EmailMessage(mail_subject, message, to=[to_email])
+    send_email.send()
+       
     return render(request,'orders/payments.html')
 
 
