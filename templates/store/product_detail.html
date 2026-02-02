@@ -1,6 +1,7 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 
 <section class="section-content padding-y bg">
+  {%include 'includes/alerts.html'%}
   <div class="container">
     <!-- ============================ COMPONENT 1 ================================= -->
     <div class="card">
@@ -8,9 +9,7 @@
         <aside class="col-md-6">
           <article class="gallery-wrap">
             <div class="img-big-wrap">
-              <a href="#"
-                ><img src="{{ single_product.product_images.url }}"
-              /></a>
+              <a href="#"><img src="{{ single_product.product_images.url }}" /></a>
             </div>
             <!-- img-big-wrap.// -->
           </article>
@@ -58,14 +57,13 @@
               </div>
               <!-- row.//-->
               <hr />
-              {% if single_product.stock <= 0 %}
-              <h5 class="text-danger">out of stock</h5>
-              {% else %}
-              <button type="submit" class="btn btn-primary">
-                <span class="text">Add to cart</span>
-                <i class="fas fa-shopping-cart"></i>
-              </button>
-              {% endif %}
+              {% if single_product.stock <= 0 %} <h5 class="text-danger">out of stock</h5>
+                {% else %}
+                <button type="submit" class="btn btn-primary">
+                  <span class="text">Add to cart</span>
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                {% endif %}
             </article>
           </form>
           <!-- product-info-aside .// -->
@@ -81,16 +79,50 @@
 
     <div class="row">
       <div class="col-md-9">
+        <form action="{% url 'submit_review' single_product.id %}" method="POST">
+          {% csrf_token %}
+          <h5>Write Your Review</h5>
+          <div>
+            <!-- rating star -->
+            <label>How do you rate this product?</label>
+            <br>
+            <div class="rate">
+              <input type="radio" name="rating" id="rating10" value="5" required> <label for="rating10" title="5"></label>
+              <input type="radio" name="rating" id="rating9" value="4.5" required> <label for="rating9" title="4.5" class="half"></label>
+              <input type="radio" name="rating" id="rating8" value="4" required> <label for="rating8" title="4"></label>
+              <input type="radio" name="rating" id="rating7" value="3.5" required> <label for="rating7" title="3.5" class="half"></label>
+              <input type="radio" name="rating" id="rating6" value="3" required> <label for="rating6" title="3"></label>
+              <input type="radio" name="rating" id="rating5" value="2.5" required> <label for="rating5" title="2.5" class="half"></label>
+              <input type="radio" name="rating" id="rating4" value="2" required> <label for="rating4" title="2"></label>
+              <input type="radio" name="rating" id="rating3" value="1.5" required> <label for="rating3" title="1.5" class="half"></label>
+              <input type="radio" name="rating" id="rating2" value="1" required> <label for="rating2" title="1"></label>
+              <input type="radio" name="rating" id="rating1" value="0.5" required> <label for="rating1" title="0.5" class="half"></label>
+            </div> 
+            <br>
+            Review Title:
+            <input type="text" class="form-control" name="subject">
+            <br>
+            Review:
+            <textarea name="review" rows="4" class="form-control"></textarea>
+            <br>
+            {% if user.is_authenticated %}
+              {% if orderproduct %}
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+              {% else %}
+                <p>You must purchase this product to post review.</p>
+              {% endif %}
+            {% else %}
+              <p>You must be logged in to post review. <span><a href="{% url 'login' %}">Login now</a></span></p>
+            {% endif %}
+          </div>
+        </form>
+        <br>
         <header class="section-heading">
           <h3>Customer Reviews</h3>
         </header>
-
         <article class="box mb-3">
           <div class="icontext w-100">
-            <img
-              src="{% static 'images/avatars/avatar1.jpg' %}"
-              class="img-xs icon rounded-circle"
-            />
+            <img src="{% static 'images/avatars/avatar1.jpg' %}" class="img-xs icon rounded-circle" />
             <div class="text">
               <span class="date text-muted float-md-right">24.04.2020 </span>
               <h6 class="mb-1">Mike John</h6>
