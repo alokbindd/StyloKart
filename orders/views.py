@@ -7,7 +7,7 @@ from store.models import Product
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 
-from django.http import HttpResponse
+from django.http import HttpResponse , JsonResponse
 
 # Create your views here.
 def payments(request):
@@ -67,9 +67,40 @@ def payments(request):
     to_email = current_user.email
     send_email = EmailMessage(mail_subject, message, to=[to_email])
     send_email.send()
-       
-    return render(request,'orders/payments.html')
+    
+    data = {
+        'order_number': order.order_number,
+        'transID': payment.payment_id,
+    }
+    return JsonResponse(data)
 
+def order_complete(request):
+    order_number = request.GET.get('order_number')
+    transID = request.GET.get('payment_id')
+
+    try:
+        order = Order.objects.get(order_number=order_number, is_ordered=True)
+        orderproduct = OrderProduct.objects.filter(order_id=order.id)
+        payment = Payment.objects.get(payment_id=transID)
+
+        subtotal = 0
+        for i in orderproduct:
+            subtotal += i.product_price * i.quantity
+
+        context = {
+            'order': order,
+            'order_number': order.order_number,
+            'orderproduct': orderproduct,
+            'transID': payment.payment_id,
+            'payment': payment,
+            'subtotal': subtotal,
+        }
+
+        return render(request,'orders/order_complete.html', context)
+    except (Product.DoesNotExist, Order.DoesNotExist):
+        return redirect('home')
+
+    return render(request,'orders/order_complete.html')
 
 def place_order(request, total=0, quantity=0):
     current_user = request.user
