@@ -61,3 +61,7 @@ $(document).ready(function() {
 setTimeout(function(){
     $('#message').fadeOut('slow')
 }, 2000)
+
+function printInvoice() {
+    window.print();
+} 
