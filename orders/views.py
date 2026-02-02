@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from carts.models import CartItem 
 from .forms import OrderForm
-from .models import Order, Payment
-import datetime,json
+from .models import Order, Payment, OrderProduct
+import datetime, json
 
 from django.http import HttpResponse
 
@@ -24,7 +24,29 @@ def payments(request):
     order.payment = payment
     order.is_ordered = True
     order.save()
+
+    # move the cart items to orderproduct table
+    cart_items = CartItem.objects.filter(user=current_user)
     
+    for item in cart_items:
+        print("Enter loop")
+        orderproduct = OrderProduct()
+        orderproduct.order_id = order.id
+        orderproduct.payment = payment
+        orderproduct.user_id = current_user.id
+        orderproduct.product_id = item.product.id
+        orderproduct.quantity = item.quantity
+        orderproduct.product_price = item.product.price
+        orderproduct.ordered = True
+        orderproduct.save()
+
+        # saving variations
+        cart_item = CartItem.objects.get(id=item.id)
+        product_variations = cart_item.variations.all()
+        orderproduct = OrderProduct.objects.get(id=orderproduct.id)
+        orderproduct.variations.set(product_variations)
+        orderproduct.save()
+
     return render(request,'orders/payments.html')
 
 
