@@ -1,13 +1,12 @@
 # Django
 db.sqlite3
 media/
-static/admin/
-static/
+
 
 # Python
 __pycache__/
 *.pyc
 
 env
+venv
 .env
-creds.py
