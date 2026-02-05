@@ -19,13 +19,9 @@ from django.urls import path , include
 from . import views
 from django.conf.urls.static import static
 from django.conf import settings
-from django.http import HttpResponseForbidden
-
-def fake_admin(request):
-    return HttpResponseForbidden("Access Denied")
 
 urlpatterns = [
-    path('admin/',fake_admin), 
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path('secureloginsite/', admin.site.urls),
     path('',views.home ,name='home'),
     path('store/', include('store.urls')),
