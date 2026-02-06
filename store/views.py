@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from django.db.models import Q
 from django.contrib import messages
 from orders.models import OrderProduct
+from accounts.models import UserProfile
 # Create your views here.
 
 def store(request,category_slug=None):
@@ -48,18 +49,33 @@ def product_detail(request,category_slug,product_slug):
     except OrderProduct.DoesNotExist:
         orderproduct = None
 
-    # get reviews
-    reviews = ReviewRating.objects.filter(product_id=single_product.id, status=True)
+    # get reviews with user (for reviewer profile)
+    reviews = ReviewRating.objects.filter(product_id=single_product.id, status=True).select_related('user')
 
     # get product image
     product_gallery = ProductGallery.objects.filter(product_id=single_product.id)
 
+    # Build review list with each reviewer's profile (so each review shows its author's pic)
+    reviewer_user_ids = [r.user_id for r in reviews]
+    reviewer_profiles = {p.user_id: p for p in UserProfile.objects.filter(user_id__in=reviewer_user_ids)}
+    review_data = [{'review': r, 'profile': reviewer_profiles.get(r.user_id)} for r in reviews]
+
+    # Current user's profile (only when logged in) - for any other use in template
+    userprofile = None
+    if request.user.is_authenticated:
+        try:
+            userprofile = UserProfile.objects.get(user_id=request.user.id)
+        except UserProfile.DoesNotExist:
+            pass
+
     context = {
-        'single_product':single_product,
+        'single_product': single_product,
         'in_cart': in_cart,
         'orderproduct': orderproduct,
         'reviews': reviews,
+        'review_data': review_data,
         'product_gallery': product_gallery,
+        'userprofile': userprofile,
     }
     return render(request,'store/product_detail.html',context)
 
