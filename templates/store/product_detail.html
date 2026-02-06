@@ -144,27 +144,31 @@
             <span>{{single_product.countReview}} reviews</span>
           </div>
         </header>
-        {% for review in reviews %}
+        {% for item in review_data %}
         <article class="box mb-3">
           <div class="icontext w-100">
-            <img src="" class="img-xs icon rounded-circle" alt="user-pic" />
+            	{% if item.profile and item.profile.profile_picture %}
+								<img src="{{ item.profile.profile_picture.url }}" alt="user profile pic" height="40" width="40" style="border-radius: 50%;">
+							{% else %}
+								<img src="{% static 'images/avatars/user.png' %}" alt="user profile pic" height="40" width="40" style="border-radius: 50%;">
+							{% endif %}
             <div class="text">
-              <span class="date text-muted float-md-right">{{review.updated_at}}</span>
-              <h6 class="mb-1">{{review.user.full_name}}</h6>
+              <span class="date text-muted float-md-right">{{ item.review.updated_at }}</span>
+              <h6 class="mb-1">{{ item.review.user.full_name }}</h6>
               <div class="rating-star">
-                <i class="fa fa-star{% if review.rating == 0.5 %}-half-o{% elif review.rating < 1 %}-o {% endif %}" aria-hidden="true"></i>
-                <i class="fa fa-star{% if review.rating == 1.5 %}-half-o{% elif review.rating < 2 %}-o {% endif %}" aria-hidden="true"></i>
-                <i class="fa fa-star{% if review.rating == 2.5 %}-half-o{% elif review.rating < 3 %}-o {% endif %}" aria-hidden="true"></i>
-                <i class="fa fa-star{% if review.rating == 3.5 %}-half-o{% elif review.rating < 4 %}-o {% endif %}" aria-hidden="true"></i>
-                <i class="fa fa-star{% if review.rating == 4.5 %}-half-o{% elif review.rating < 5 %}-o {% endif %}" aria-hidden="true"></i>
+                <i class="fa fa-star{% if item.review.rating == 0.5 %}-half-o{% elif item.review.rating < 1 %}-o {% endif %}" aria-hidden="true"></i>
+                <i class="fa fa-star{% if item.review.rating == 1.5 %}-half-o{% elif item.review.rating < 2 %}-o {% endif %}" aria-hidden="true"></i>
+                <i class="fa fa-star{% if item.review.rating == 2.5 %}-half-o{% elif item.review.rating < 3 %}-o {% endif %}" aria-hidden="true"></i>
+                <i class="fa fa-star{% if item.review.rating == 3.5 %}-half-o{% elif item.review.rating < 4 %}-o {% endif %}" aria-hidden="true"></i>
+                <i class="fa fa-star{% if item.review.rating == 4.5 %}-half-o{% elif item.review.rating < 5 %}-o {% endif %}" aria-hidden="true"></i>
               </div>
             </div>
           </div>
           <!-- icontext.// -->
           <div class="mt-0">
-            <h6>{{review.subject}}</h6>
+            <h6>{{ item.review.subject }}</h6>
             <p>
-              {{review.review}}
+              {{ item.review.review }}
             </p>
           </div>
         </article>
