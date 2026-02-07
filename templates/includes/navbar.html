@@ -1,91 +1,150 @@
 {% load static %}
-    <header class="section-header">
-		<nav class="navbar p-md-0 navbar-expand-sm navbar-light border-bottom">
-			<div class="container">
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTop4"
-					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarTop4">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item dropdown">
-							<a href="#" class="nav-link"> English </a>
+<header class="section-header sticky-header">
+	{% load static %}
 
-						</li>
-						<li class="nav-item dropdown">
-							<a href="#" class="nav-link"> USD </a>
-						</li>
-					</ul>
-					<ul class="navbar-nav">
-						<li><a href="#" class="nav-link"> <i class="fa fa-envelope"></i> Email </a></li>
-						<li><a href="#" class="nav-link"> <i class="fa fa-phone"></i> Call us </a></li>
-					</ul> <!-- list-inline //  -->
-				</div> <!-- navbar-collapse .// -->
-			</div> <!-- container //  -->
-		</nav>
+	<nav class="navbar navbar-light border-bottom py-1 bg-white">
+		<div class="container-fluid px-1 d-flex justify-content-between align-items-center">
 
-		<section class="header-main border-bottom">
-			<div class="container">
-				<div class="row align-items-center">
-					<div class="col-lg-2 col-md-3 col-6">
-						<a href="{%url 'home'%}" class="brand-wrap">
-							<img class="logo" src="{% static './images/logoo.png' %}">
-						</a> <!-- brand-wrap.// -->
-					</div>
-					<div class="col-lg col-sm col-md col-6 flex-grow-0">
-						<div class="category-wrap dropdown d-inline-block float-right">
-							<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-								<i class="fa fa-bars"></i> All category
-							</button>
-							<div class="dropdown-menu">
-								<a class="dropdown-item" href="{% url 'store' %}">All Products</a>
-								{% for category in links %}
-								<a class="dropdown-item" href="{{ category.get_url }}"> {{ category.category_name }}</a>
-								{% endfor %}
-							</div>
-						</div> <!-- category-wrap.// -->
-					</div> <!-- col.// -->
-					<a href="{% url 'store' %}" class="btn btn-outline-primary">Store</a>
-					<div class="col-lg  col-md-6 col-sm-12 col">
-						<form action="{% url 'search' %}" class="search" method="get">
-							<div class="input-group w-100">
-								<input type="text" class="form-control" style="width:60%;" placeholder="Search"  name="keyword">
+			<!-- LEFT: Developer Links -->
+			<ul class="navbar-nav flex-row align-items-center developer-links">
+				<li class="nav-item mx-2">
+					<a href="https://github.com/alokbindd" target="_blank" class="nav-link small">
+						<i class="fa fa-github"></i>
+						<span class="d-none d-md-inline"> GitHub</span>
+					</a>
+				</li>
 
-								<div class="input-group-append">
-									<button class="btn btn-primary" type="submit">
-										<i class="fa fa-search"></i>
-									</button>
-								</div>
-							</div>
-						</form> <!-- search-wrap .end// -->
-					</div> <!-- col.// -->
-					<div class="col-lg-3 col-sm-6 col-8 order-2 order-lg-3">
-						<div class="d-flex justify-content-end mb-3 mb-lg-0">
-							{% if user.id is None %}
-								<div class="widget-header">
-									<small class="title text-muted">Welcome guest!</small>
-									<div>
-										<a href="{% url 'login' %}">Sign in</a> <span class="dark-transp"> | </span>
-										<a href="{% url 'register'%}"> Register</a>
-									</div>
-								</div>
-							{% else %}
-								<div class="widget-header">
-									<small class="title text-muted">Welcome {{ user.first_name }}!</small>
-									<div>
-										<a href="{% url 'dashboard' %}">Dashboard</a> <span class="dark-transp"> | </span>
-										<a href="{% url 'logout'%}"> Logout </a>
-									</div>
-								</div>
-							{% endif %}
-							<a href="{% url 'cart' %}" class="widget-header pl-3 ml-3">
-								<div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i>
-								</div>
-								<span class="badge badge-pill badge-danger notify">{{cart_count}}</span>
+				<li class="nav-item mx-2">
+					<a href="https://linkedin.com/in/alokbind" target="_blank" class="nav-link small">
+						<i class="fa fa-linkedin"></i>
+						<span class="d-none d-md-inline"> LinkedIn</span>
+					</a>
+				</li>
+
+				<li class="nav-item mx-2">
+					<a href="mailto:alokbindd@gmail.com" class="nav-link small">
+						<i class="fa fa-envelope"></i>
+						<span class="d-none d-md-inline"> Email</span>
+					</a>
+				</li>
+
+			</ul>
+
+			<!-- RIGHT: Tech Stack + Resume + Demo Badge -->
+			<ul class="navbar-nav flex-row align-items-center">
+
+				<li class="nav-item mx-2 d-none d-lg-block text-muted small">
+					Built with
+				</li>
+
+				<li class="nav-item mx-1 d-none d-lg-block">
+					<span class="badge tech-badge">Django</span>
+				</li>
+				<li class="nav-item mx-1 d-none d-lg-block">
+					<span class="badge tech-badge">Bootstrap</span>
+				</li>
+				<li class="nav-item mx-1 d-none d-lg-block">
+					<span class="badge tech-badge">PostgreSQL</span>
+				</li>
+
+				<li class="nav-item mx-2">
+					<a href="{% static 'resume/Your_Resume.pdf' %}" target="_blank"
+						class="btn btn-sm btn-outline-primary rounded-pill">
+						Resume
+					</a>
+				</li>
+
+				<li class="nav-item mx-2">
+					<span class="badge badge-warning rounded-pill">Demo Project</span>
+				</li>
+
+			</ul>
+
+		</div>
+	</nav>
+
+	<section class="header-main border-bottom py-3">
+		<div class="container-fluid px-4">
+			<div class="row align-items-center">
+
+				<!-- LOGO -->
+				<div class="col-auto">
+					<a href="{% url 'home' %}" class="brand-wrap d-flex align-items-center">
+						<img class="logo" src="{% static './images/logoo.png' %}" style="height:40px;">
+					</a>
+				</div>
+
+				<!-- CATEGORY + STORE -->
+				<div class="col-auto d-flex align-items-center gap-2 px-0">
+
+					<div class="dropdown">
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-bars mr-1"></i> All category
+						</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="{% url 'store' %}">All Products</a>
+							{% for category in links %}
+							<a class="dropdown-item" href="{{ category.get_url }}">
+								{{ category.category_name }}
 							</a>
-						</div> <!-- widgets-wrap.// -->
-					</div> <!-- col.// -->
-				</div> <!-- row.// -->
-			</div> <!-- container.// -->
-		</section> <!-- header-main .// -->
-	</header> <!-- section-header.// -->
+							{% endfor %}
+						</div>
+					</div>
+
+				</div>
+
+				<!-- SEARCH (CENTERED & FLEXIBLE) -->
+				<div class="col d-none d-md-block">
+					<form action="{% url 'search' %}" method="get">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Search products" name="keyword">
+							<div class="input-group-append">
+								<button class="btn btn-primary" type="submit">
+									<i class="fa fa-search"></i>
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col-auto  d-flex align-items-center gap-2 px-0">
+					<a href="{% url 'store' %}" class="btn btn-outline-primary">
+						Store
+					</a>
+
+				</div>
+
+				<!-- USER + CART -->
+				<div class="col-auto">
+					<div class="d-flex align-items-center gap-3">
+
+						{% if user.id is None %}
+						<div class="text-right small">
+							<div class="text-muted">Welcome guest!</div>
+							<a href="{% url 'login' %}">Sign in</a> |
+							<a href="{% url 'register' %}">Register</a>
+						</div>
+						{% else %}
+						<div class="text-right small">
+							<div class="text-muted">Welcome {{ user.first_name }}!</div>
+							<a href="{% url 'dashboard' %}">Dashboard</a> |
+							<a href="{% url 'logout' %}">Logout</a>
+						</div>
+						{% endif %}
+
+						<a href="{% url 'cart' %}" class="position-relative">
+							<div
+								class="icon icon-sm rounded-circle border d-flex align-items-center justify-content-center">
+								<i class="fa fa-shopping-cart"></i>
+							</div>
+							<span class="badge badge-danger badge-pill position-absolute" style="top:-6px; right:-6px;">
+								{{ cart_count }}
+							</span>
+						</a>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+</header> <!-- section-header.// -->

@@ -4,23 +4,23 @@
 
 	<!-- ========================= SECTION MAIN ========================= -->
 	<section class="section-intro padding-y-sm">
-		<div class="container">
+		<div class="container-fluid px-4">
 
 			<div class="intro-banner-wrap">
-				<img src="{% static 'images/banners/1.png' %}" class="img-fluid rounded">
+				<img src="{% static 'images/banners/banner1.png' %}" class="img-fluid rounded">
 			</div>
 
-		</div> <!-- container //  -->
+		</div> <!-- container-fluid px-4-fluid px-4 //  -->
 	</section>
 	<!-- ========================= SECTION MAIN END// ========================= -->
 
 	<!-- ========================= SECTION  ========================= -->
 	<section class="section-name padding-y-sm">
-		<div class="container">
+		<div class="container-fluid px-4">
 
-			<header class="section-heading">
-				<a href="{% url 'store' %}" class="btn btn-outline-primary float-right">See all</a>
+			<header class="section-heading d-flex justify-content-between">
 				<h3 class="section-title">Popular products</h3>
+				<a href="{% url 'store' %}" class="btn btn-outline-primary float-right">See all</a>
 			</header><!-- sect-heading -->
 
 			<div class="row">
@@ -44,7 +44,7 @@
 				{% endfor %}
 			</div> <!-- row.// -->
 
-		</div><!-- container // -->
+		</div><!-- container-fluid px-4 // -->
 	</section>
 	<!-- ========================= SECTION  END// ========================= -->
 

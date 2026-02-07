@@ -7,7 +7,7 @@
 
 <!-- ============================ COMPONENT LOGIN   ================================= -->
 {% if request.GET.command == 'verification' %}
-<div class="container mx-auto text-center alert alert-info" style="max-width: 1000px; margin-top:100px;">
+<div class="container-fluid px-5 mx-auto text-center alert alert-info" style="max-width: 1000px; margin-top:100px;">
 Thank you for registering with us, we have sent you a verification email to your email address <b>{{ request.GET.email}}</b> . please verify it.
 <br><br>
 Already Verified ?<a href="{% url 'login' %}"> Login </a>
