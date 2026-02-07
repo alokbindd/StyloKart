@@ -1,22 +1,22 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 <!-- ========================= SECTION PAGETOP ========================= -->
-<section class="section-pagetop bg">
-  <div class="container">
+<section class="section-pagetop bg py-1">
+  <div class="container-fluid px-4">
     {% if 'search' in request.path %}
-    <h2 class="title-page">Search result</h2>
+    <h2 class="title-page text-center">Search result</h2>
     {% else %}
-    <h2 class="title-page">Our Store</h2>
+    <h2 class="title-page text-center">Our Store</h2>
     {%endif%}
   </div>
 
-  <!-- container //  -->
+  <!-- container-fluid px-4 //  -->
 </section>
 
 <!-- ========================= SECTION INTRO END// ========================= -->
 
 <!-- ========================= SECTION CONTENT ========================= -->
-<section class="section-content padding-y">
-  <div class="container">
+<section class="section-content padding-y pt-0">
+  <div class="container-fluid px-4">
     <div class="row">
       <aside class="col-md-3">
         <div class="card">
@@ -49,45 +49,6 @@
               <!-- card-body.// -->
             </div>
           </article>
-          <!-- filter-group  .// -->
-          <article class="filter-group">
-            <header class="card-header">
-              <a
-                href="#"
-                data-toggle="collapse"
-                data-target="#collapse_4"
-                aria-expanded="true"
-                class=""
-              >
-                <i class="icon-control fa fa-chevron-down"></i>
-                <h6 class="title">Sizes</h6>
-              </a>
-            </header>
-            <div class="filter-content collapse show" id="collapse_4" style="">
-              <div class="card-body">
-                <label class="checkbox-btn">
-                  <input type="checkbox" />
-                  <span class="btn btn-light"> XS </span>
-                </label>
-
-                <label class="checkbox-btn">
-                  <input type="checkbox" />
-                  <span class="btn btn-light"> SM </span>
-                </label>
-
-                <label class="checkbox-btn">
-                  <input type="checkbox" />
-                  <span class="btn btn-light"> LG </span>
-                </label>
-
-                <label class="checkbox-btn">
-                  <input type="checkbox" />
-                  <span class="btn btn-light"> XXL </span>
-                </label>
-              </div>
-              <!-- card-body.// -->
-            </div>
-          </article>
           <!-- filter-group .// -->
 
           <article class="filter-group">
@@ -105,35 +66,36 @@
             </header>
             <div class="filter-content collapse show" id="collapse_3" style="">
               <div class="card-body">
-                <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <label>Min</label>
-                    <!-- <input class="form-control" placeholder="$0" type="number"> -->
-                    <select class="mr-2 form-control">
-                      <option value="0">$0</option>
-                      <option value="50">$50</option>
-                      <option value="100">$100</option>
-                      <option value="150">$150</option>
-                      <option value="200">$200</option>
-                      <option value="500">$500</option>
-                      <option value="1000">$1000</option>
-                    </select>
+                <form method="get" action="">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label>Min</label>
+                      <select class="mr-2 form-control" name="min_price">
+                        <option value="0" {% if min_price == '0' or min_price == '' %}selected{% endif %}>$0</option>
+                        <option value="50" {% if min_price == '50' %}selected{% endif %}>$50</option>
+                        <option value="100" {% if min_price == '100' %}selected{% endif %}>$100</option>
+                        <option value="150" {% if min_price == '150' %}selected{% endif %}>$150</option>
+                        <option value="200" {% if min_price == '200' %}selected{% endif %}>$200</option>
+                        <option value="500" {% if min_price == '500' %}selected{% endif %}>$500</option>
+                        <option value="1000" {% if min_price == '1000' %}selected{% endif %}>$1000</option>
+                      </select>
+                    </div>
+                    <div class="form-group text-right col-md-6">
+                      <label>Max</label>
+                      <select class="mr-2 form-control" name="max_price">
+                        <option value="50" {% if max_price == '50' %}selected{% endif %}>$50</option>
+                        <option value="100" {% if max_price == '100' %}selected{% endif %}>$100</option>
+                        <option value="150" {% if max_price == '150' %}selected{% endif %}>$150</option>
+                        <option value="200" {% if max_price == '200' %}selected{% endif %}>$200</option>
+                        <option value="500" {% if max_price == '500' %}selected{% endif %}>$500</option>
+                        <option value="1000" {% if max_price == '1000' %}selected{% endif %}>$1000</option>
+                        <option value="99999" {% if max_price == '99999' or max_price == '' %}selected{% endif %}>$2000+</option>
+                      </select>
+                    </div>
                   </div>
-                  <div class="form-group text-right col-md-6">
-                    <label>Max</label>
-                    <select class="mr-2 form-control">
-                      <option value="50">$50</option>
-                      <option value="100">$100</option>
-                      <option value="150">$150</option>
-                      <option value="200">$200</option>
-                      <option value="500">$500</option>
-                      <option value="1000">$1000</option>
-                      <option value="2000">$2000+</option>
-                    </select>
-                  </div>
-                </div>
-                <!-- form-row.// -->
-                <button class="btn btn-block btn-primary">Apply</button>
+                  <!-- form-row.// -->
+                  <button type="submit" class="btn btn-block btn-primary">Apply</button>
+                </form>
               </div>
               <!-- card-body.// -->
             </div>
@@ -186,7 +148,7 @@
           <!-- col.// -->
           {% endfor %}
         {% else %}
-        <div class="container">
+        <div class="container-fluid px-4">
           <h2 class="text-center">No result found, please search again. </h2>
         </div>
         {%endif%}
@@ -197,7 +159,7 @@
 			<ul class="pagination">
 				{% if products.has_previous %}
 				<li class="page-item">
-					<a class="page-link" href="?page={{products.previous_page_number}}">Previous</a>
+					<a class="page-link" href="?page={{ products.previous_page_number }}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}">Previous</a>
 				</li>
 				{% else %}
 				<li class="page-item disabled">
@@ -205,18 +167,18 @@
 				</li>
 				{% endif %}
 				
-				{%for i in products.paginator.page_range %}
-					{% if products.number == i  %}
+				{% for i in products.paginator.page_range %}
+					{% if products.number == i %}
 					<li class="page-item active">
-						<a class="page-link" href="#">{{i}}</a>
+						<a class="page-link" href="#">{{ i }}</a>
 					</li>
 					{% else %}
-					<li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+					<li class="page-item"><a class="page-link" href="?page={{ i }}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}">{{ i }}</a></li>
 					{% endif %}
 				{% endfor %}
 				
 				{% if products.has_next %}
-				<li class="page-item"><a class="page-link" href="?page={{products.next_page_number}}">Next</a></li>
+				<li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}">Next</a></li>
 				{% else %}
 				<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
 				{% endif %}
@@ -228,7 +190,7 @@
       <!-- col.// -->
     </div>
   </div>
-  <!-- container .//  -->
+  <!-- container-fluid px-4 .//  -->
 </section>
 <!-- ========================= SECTION CONTENT END// ========================= -->
 
