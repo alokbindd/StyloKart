@@ -23,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY', default='unsafe-dev-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-SECRET_KEY = config('SECRET_KEY', default='unsafe-dev-key',cast=bool)
+DEBUG = config('DEBUG', default=True,cast=bool)
 
 ALLOWED_HOSTS = ['django-stylokart-env.eba-egq2k9tf.us-west-2.elasticbeanstalk.com']
 
@@ -149,7 +149,6 @@ MESSAGE_TAGS = {
 }
 
 # smtp configuration
-
 def env(key, default=None, cast=str):
     return config(key, default=default, cast=cast)
 
