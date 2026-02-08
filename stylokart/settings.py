@@ -14,6 +14,7 @@ from pathlib import Path
 from decouple import config
 from django.contrib.messages import constants as messages
 
+DJANGO_ENV = config('DJANGO_ENV', default='development')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,9 +27,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='unsafe-dev-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True,cast=bool)
+DEBUG = config('DEBUG', default=(DJANGO_ENV == 'development'), cast=bool)
 
-ALLOWED_HOSTS = ['django-stylokart-env.eba-egq2k9tf.us-west-2.elasticbeanstalk.com']
+if DJANGO_ENV == 'production':
+    ALLOWED_HOSTS = [
+        'django-stylokart-env.eba-egq2k9tf.us-west-2.elasticbeanstalk.com',
+    ]
+else:
+    ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -91,17 +97,26 @@ AUTH_USER_MODEL = 'accounts.Account'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("DB_NAME"),
-        "USER": config("DB_USER"),
-        "PASSWORD": config("DB_PASSWORD"),
-        "HOST": config("DB_HOST"),
-        "PORT": config("DB_PORT", cast=int),
+if DJANGO_ENV == 'production':
+    # Production (Elastic Beanstalk + RDS)
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": config("DB_NAME"),
+            "USER": config("DB_USER"),
+            "PASSWORD": config("DB_PASSWORD"),
+            "HOST": config("DB_HOST"),
+            "PORT": config("DB_PORT", cast=int),
+        }
     }
-}
-
+else:
+    # Development (Local SQLite)
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
