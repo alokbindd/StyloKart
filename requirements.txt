@@ -17,3 +17,5 @@ sqlparse==0.5.5
 tzdata==2025.3
 urllib3==2.6.3
 psycopg2-binary
+boto3
+django-storages

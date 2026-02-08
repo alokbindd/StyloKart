@@ -15,3 +15,7 @@ venv
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+# data
+data_utf8.json
+data.json
