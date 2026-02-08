@@ -33,6 +33,7 @@ if DJANGO_ENV == 'production':
     ALLOWED_HOSTS = [
         'django-stylokart-env.eba-egq2k9tf.us-west-2.elasticbeanstalk.com',
         '.elasticbeanstalk.com',
+        '*',
     ]
 else:
     ALLOWED_HOSTS = [
