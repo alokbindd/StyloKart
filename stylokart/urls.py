@@ -19,7 +19,7 @@ from django.urls import path , include
 from . import views
 from django.conf.urls.static import static
 from django.conf import settings
-
+ 
 urlpatterns = [
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path('secureloginsite/', admin.site.urls),
@@ -28,4 +28,9 @@ urlpatterns = [
     path('cart/', include('carts.urls')),
     path('accounts/',include('accounts.urls')),
     path('orders/',include('orders.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+ 
+# In development, serve media files from the local filesystem.
+# In production (DEBUG=False) media is served from S3, so we skip this.
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

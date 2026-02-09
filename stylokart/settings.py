@@ -154,36 +154,40 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
-
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR /'static'
-STATICFILES_DIRS = [
-    'stylokart/static',
-]
-
-if DJANGO_ENV == 'production':
-    # =====================
-    # S3 MEDIA CONFIG
-    # =====================
-
-    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-
-    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
-    AWS_S3_REGION_NAME = 'us-west-2'
-
-    AWS_QUERYSTRING_AUTH = False
-    AWS_DEFAULT_ACL = 'public-read'
-
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-    MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
-else:
-    # media files configuration
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = BASE_DIR / 'media'
+ # Static files (CSS, JavaScript, Images)
+ # https://docs.djangoproject.com/en/6.0/howto/static-files/
+ 
+ STATIC_URL = 'static/'
+ STATIC_ROOT = BASE_DIR /'static'
+ STATICFILES_DIRS = [
+     'stylokart/static',
+ ]
+ 
+ # Media files configuration
+ # In development we serve media from the local filesystem.
+ # In production we still define MEDIA_ROOT (to avoid AttributeError),
+ # but actual media URLs are served from S3.
+ MEDIA_ROOT = BASE_DIR / 'media'
+ 
+ if DJANGO_ENV == 'production':
+     # =====================
+     # S3 MEDIA CONFIG
+     # =====================
+ 
+     AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+     AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+ 
+     AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+     AWS_S3_REGION_NAME = 'us-west-2'
+ 
+     AWS_QUERYSTRING_AUTH = False
+     AWS_DEFAULT_ACL = 'public-read'
+ 
+     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+ 
+     MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
+ else:
+     MEDIA_URL = '/media/'
 
 MESSAGE_TAGS = {
     messages.ERROR: "danger",
