@@ -27,13 +27,13 @@
 				{% for product in products %} 
 				<div class="col-md-3">
 					<div class="card card-product-grid">
-						<a href="{{ product.get_url }}" class="img-wrap"> 
-							{% if product.product_images %}
-								<img src="{{ product.product_images.url }}"> 
+						<a href="{{ product.get_url }}" class="img-wrap">
+							{% if product.product_images and product.product_images.name %}
+								<img src="{{ product.product_images.url }}" alt="{{ product.product_name }}">
 							{% else %}
-								<img src="{% static 'images/misc/favicon.png' %}">
+								<img src="{% static 'images/misc/favicon.png' %}" alt="No image">
 							{% endif %}
-							</a>
+						</a>
 						<figcaption class="info-wrap">
 							<a href="{{ product.get_url }}" class="title"> {{ product.product_name}}</a>
 							<div class="price mt-1"> $ {{ product.price}} </div> <!-- price-wrap.// -->

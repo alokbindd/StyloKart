@@ -14,8 +14,6 @@ from pathlib import Path
 from decouple import config
 from django.contrib.messages import constants as messages
 
-DJANGO_ENV = config('DJANGO_ENV', default='development')
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,18 +25,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='unsafe-dev-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = DJANGO_ENV == 'development'
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-if DJANGO_ENV == 'production':
+if DEBUG:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+else:
     ALLOWED_HOSTS = [
         'django-stylokart-env.eba-egq2k9tf.us-west-2.elasticbeanstalk.com',
         '.elasticbeanstalk.com',
     ]
-else:
-    ALLOWED_HOSTS = [
-        'localhost',
-        '127.0.0.1',
-    ]
+
 
 # Application definition
 
@@ -97,7 +93,8 @@ WSGI_APPLICATION = 'stylokart.wsgi.application'
 
 AUTH_USER_MODEL = 'accounts.Account'
 
-if DJANGO_ENV == "development":
+if DEBUG:
+    # LOCAL DEVELOPMENT
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -107,7 +104,9 @@ if DJANGO_ENV == "development":
 
     MEDIA_URL = "/media/"
     MEDIA_ROOT = BASE_DIR / "media"
+
 else:
+    # PRODUCTION (Elastic Beanstalk)
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -129,31 +128,8 @@ else:
 
     MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/"
 
-
-
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
-# if DJANGO_ENV == 'production':
-#     # Production (Elastic Beanstalk + RDS)
-#     DATABASES = {
-#         "default": {
-#             "ENGINE": "django.db.backends.postgresql",
-#             "NAME": config("DB_NAME"),
-#             "USER": config("DB_USER"),
-#             "PASSWORD": config("DB_PASSWORD"),
-#             "HOST": config("DB_HOST"),
-#             "PORT": config("DB_PORT", cast=int),
-#         }
-#     }
-# else:
-#     # Development (Local SQLite)
-#     DATABASES = {
-#         "default": {
-#             "ENGINE": "django.db.backends.sqlite3",
-#             "NAME": BASE_DIR / "db.sqlite3",
-#         }
-#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
