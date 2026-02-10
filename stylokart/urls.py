@@ -32,5 +32,5 @@ urlpatterns = [
  
 # In development, serve media files from the local filesystem.
 # In production (DEBUG=False) media is served from S3, so we skip this.
-# if settings.DEBUG:
-#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

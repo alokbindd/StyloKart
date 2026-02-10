@@ -27,13 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='unsafe-dev-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=(DJANGO_ENV == 'development'), cast=bool)
+DEBUG = DJANGO_ENV == 'development'
 
 if DJANGO_ENV == 'production':
     ALLOWED_HOSTS = [
         'django-stylokart-env.eba-egq2k9tf.us-west-2.elasticbeanstalk.com',
         '.elasticbeanstalk.com',
-        '*',
     ]
 else:
     ALLOWED_HOSTS = [
