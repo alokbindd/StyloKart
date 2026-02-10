@@ -13,9 +13,14 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 from decouple import config
 from django.contrib.messages import constants as messages
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+ON_EB = 'AWS_EXECUTION_ENV' in os.environ
+
+DEBUG = not ON_EB
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,15 +30,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='unsafe-dev-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
 
-if DEBUG:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-else:
+if ON_EB:
     ALLOWED_HOSTS = [
         'django-stylokart-env.eba-egq2k9tf.us-west-2.elasticbeanstalk.com',
         '.elasticbeanstalk.com',
     ]
+else:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
 
 
 # Application definition
@@ -93,8 +98,8 @@ WSGI_APPLICATION = 'stylokart.wsgi.application'
 
 AUTH_USER_MODEL = 'accounts.Account'
 
-if DEBUG:
-    # LOCAL DEVELOPMENT
+if not ON_EB:
+    # LOCAL
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -106,7 +111,7 @@ if DEBUG:
     MEDIA_ROOT = BASE_DIR / "media"
 
 else:
-    # PRODUCTION (Elastic Beanstalk)
+    # ELASTIC BEANSTALK (PRODUCTION)
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -127,6 +132,7 @@ else:
     AWS_QUERYSTRING_AUTH = False
 
     MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/"
+
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
