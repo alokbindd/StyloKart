@@ -31,14 +31,7 @@ SECRET_KEY = config('SECRET_KEY', default='unsafe-dev-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-if ON_EB:
-    ALLOWED_HOSTS = [
-        'django-stylokart-env.eba-egq2k9tf.us-west-2.elasticbeanstalk.com',
-        '.elasticbeanstalk.com',
-    ]
-else:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-
+ALLOWED_HOSTS = ['*'] if ON_EB else ['localhost', '127.0.0.1']
 
 
 # Application definition

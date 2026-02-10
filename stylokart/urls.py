@@ -28,6 +28,8 @@ urlpatterns = [
     path('cart/', include('carts.urls')),
     path('accounts/',include('accounts.urls')),
     path('orders/',include('orders.urls')),
+    path("debug-env/", views.debug_env),
+
 ]
  
 # In development, serve media files from the local filesystem.
