@@ -12,26 +12,22 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 from decouple import config
-from django.contrib.messages import constants as messages
-import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-ON_EB = 'AWS_EXECUTION_ENV' in os.environ
-
-DEBUG = not ON_EB
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='unsafe-dev-key')
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = config('DEBUG', default=True,cast=bool)
 
-ALLOWED_HOSTS = ['*'] if ON_EB else ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -49,7 +45,6 @@ INSTALLED_APPS = [
     'carts',
     'orders',
     'admin_honeypot',
-    'storages',
 ]
 
 MIDDLEWARE = [
@@ -60,13 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_session_timeout.middleware.SessionTimeoutMiddleware',
 ]
-
-SESSION_EXPIRE_SECONDS = 3600  # 1 hour
-SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
-SESSION_TIMEOUT_REDIRECT = 'accounts/login'
-
 
 ROOT_URLCONF = 'stylokart.urls'
 
@@ -91,44 +80,17 @@ WSGI_APPLICATION = 'stylokart.wsgi.application'
 
 AUTH_USER_MODEL = 'accounts.Account'
 
-if not ON_EB:
-    # LOCAL
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
-
-    MEDIA_URL = "/media/"
-    MEDIA_ROOT = BASE_DIR / "media"
-
-else:
-    # ELASTIC BEANSTALK (PRODUCTION)
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": config("DB_NAME"),
-            "USER": config("DB_USER"),
-            "PASSWORD": config("DB_PASSWORD"),
-            "HOST": config("DB_HOST"),
-            "PORT": config("DB_PORT", cast=int),
-        }
-    }
-
-    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-
-    AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
-    AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
-    AWS_S3_REGION_NAME = "us-west-2"
-    AWS_QUERYSTRING_AUTH = False
-
-    MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/"
-
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -165,51 +127,25 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = BASE_DIR /'static'
 STATICFILES_DIRS = [
     'stylokart/static',
 ]
 
-# Media files configuration
-# In development we serve media from the local filesystem.
-# In production we still define MEDIA_ROOT (to avoid AttributeError),
-# but actual media URLs are served from S3.
-# MEDIA_ROOT = BASE_DIR / 'media'
+# media files configuration
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
-# if DJANGO_ENV == 'production':
-#     # =====================
-#     # S3 MEDIA CONFIG
-#     # =====================
-
-#     AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-#     AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-
-#     AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
-#     AWS_S3_REGION_NAME = 'us-west-2'
-
-#     AWS_QUERYSTRING_AUTH = False
-#     AWS_DEFAULT_ACL = 'public-read'
-
-#     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-#     MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
-# else:
-#     MEDIA_URL = '/media/'
+from django.contrib.messages import constants as messages
 
 MESSAGE_TAGS = {
     messages.ERROR: "danger",
 }
 
 # smtp configuration
-def env(key, default=None, cast=str):
-    return config(key, default=default, cast=cast)
 
-EMAIL_BACKEND = env(
-    'EMAIL_BACKEND',
-    'django.core.mail.backends.console.EmailBackend'
-)
-EMAIL_HOST = env('EMAIL_HOST', '')
-EMAIL_PORT = env('EMAIL_PORT', 587, int)
-EMAIL_HOST_USER = env('EMAIL_HOST_USER', '')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', '')
-EMAIL_USE_TLS = env('EMAIL_USE_TLS', True, bool)
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT',cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS',cast=bool)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
