@@ -9,7 +9,7 @@ django-session-timeout==0.1.0
 gunicorn==25.0.3
 idna==3.11
 packaging==26.0
-pillow==12.1.0
+pillow==12.1.1
 python-decouple==3.8
 python-ipware==3.0.0
 requests==2.32.5
