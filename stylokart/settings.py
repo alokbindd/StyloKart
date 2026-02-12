@@ -14,6 +14,8 @@ from pathlib import Path
 from decouple import config
 from django.contrib.messages import constants as messages
 
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY') or config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True,cast=bool)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['stylokart-env.eba-pydmw3zp.ap-south-1.elasticbeanstalk.com']
 
 # Application definition
 
@@ -151,8 +153,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 if os.environ.get("AWS_STORAGE_BUCKET_NAME"):
-    print("S3 BLOCK IS RUNNING")
-
     AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
     AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
