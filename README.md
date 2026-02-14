@@ -2,7 +2,10 @@
 
 **One of the Biggest Online Shopping Platform** — A full-featured e-commerce web application built with Django.
 
-**Live project:** [http://stylokart-env.eba-pydmw3zp.ap-south-1.elasticbeanstalk.com/](http://stylokart-env.eba-pydmw3zp.ap-south-1.elasticbeanstalk.com/)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge)](http://stylokart-env.eba-pydmw3zp.ap-south-1.elasticbeanstalk.com/)
+[![Django](https://img.shields.io/badge/Django-5.2-green?style=for-the-badge)]
+[![AWS](https://img.shields.io/badge/AWS-Elastic_Beanstalk-orange?style=for-the-badge)]
+
 ---
 
 ## Table of Contents
