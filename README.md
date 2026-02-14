@@ -2,6 +2,7 @@
 
 **One of the Biggest Online Shopping Platform** — A full-featured e-commerce web application built with Django.
 
+**Live project:** [http://stylokart-env.eba-pydmw3zp.ap-south-1.elasticbeanstalk.com/](http://stylokart-env.eba-pydmw3zp.ap-south-1.elasticbeanstalk.com/)
 ---
 
 ## Table of Contents
@@ -21,8 +22,6 @@
 ## Overview
 
 StyloKart is a Django-based e-commerce platform that provides product catalog, user accounts, shopping cart, checkout, and order management. It supports both local development (SQLite) and production deployment on **AWS Elastic Beanstalk** with **PostgreSQL** and **Amazon S3** for media storage.
-
-**Live project:** [http://stylokart-env.eba-pydmw3zp.ap-south-1.elasticbeanstalk.com/](http://stylokart-env.eba-pydmw3zp.ap-south-1.elasticbeanstalk.com/)
 
 ---
 
@@ -244,12 +243,6 @@ Static files are collected to `static/` and served as configured (e.g. from app 
 This project was developed as part of my learning journey in Django, inspired by the educational content of [TechWithRathan](https://www.youtube.com/@rathankumar).
 
 While the core e-commerce structure was learned through guided instruction, the application logic refinements, feature enhancements, and full production deployment on AWS (Elastic Beanstalk, RDS PostgreSQL, and S3 for media storage) were implemented independently.
-
----
-
-## License
-
-This project is for learning and portfolio use. Adjust license as needed for your case.
 
 ---
 
