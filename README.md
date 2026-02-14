@@ -13,6 +13,7 @@
 - [Getting Started](#getting-started)
 - [Configuration](#configuration)
 - [Deployment](#deployment)
+- [Acknowledgment](#acknowledgment)
 - [License](#license)
 
 ---
@@ -20,6 +21,8 @@
 ## Overview
 
 StyloKart is a Django-based e-commerce platform that provides product catalog, user accounts, shopping cart, checkout, and order management. It supports both local development (SQLite) and production deployment on **AWS Elastic Beanstalk** with **PostgreSQL** and **Amazon S3** for media storage.
+
+**Live project:** [http://stylokart-env.eba-pydmw3zp.ap-south-1.elasticbeanstalk.com/](http://stylokart-env.eba-pydmw3zp.ap-south-1.elasticbeanstalk.com/)
 
 ---
 
@@ -233,6 +236,14 @@ Set the required environment variables in the Elastic Beanstalk console (or via 
 - `EMAIL_*` for SMTP
 
 Static files are collected to `static/` and served as configured (e.g. from app or via S3/CloudFront if you add that). Media in production use S3 when `AWS_STORAGE_BUCKET_NAME` is set.
+
+---
+
+## Acknowledgment
+
+This project was developed as part of my learning journey in Django, inspired by the educational content of [TechWithRathan](https://www.youtube.com/@rathankumar).
+
+While the core e-commerce structure was learned through guided instruction, the application logic refinements, feature enhancements, and full production deployment on AWS (Elastic Beanstalk, RDS PostgreSQL, and S3 for media storage) were implemented independently.
 
 ---
 
