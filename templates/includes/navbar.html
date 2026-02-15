@@ -2,149 +2,160 @@
 <header class="section-header sticky-header">
 	{% load static %}
 
-	<nav class="navbar navbar-light border-bottom py-1 bg-white">
-		<div class="container-fluid px-1 d-flex justify-content-between align-items-center">
-
-			<!-- LEFT: Developer Links -->
-			<ul class="navbar-nav flex-row align-items-center developer-links">
-				<li class="nav-item mx-2">
-					<a href="https://github.com/alokbindd" target="_blank" class="nav-link small">
+	<!-- 1️⃣ Top Developer Bar (always visible, desktop + mobile) -->
+	<nav class="navbar navbar-light border-bottom py-1 bg-white top-bar-nav">
+		<div class="container-fluid px-2 px-md-3 d-flex justify-content-between align-items-center flex-nowrap">
+			<!-- Left: Icons only -->
+			<ul class="navbar-nav flex-row align-items-center developer-links mb-0">
+				<li class="nav-item">
+					<a href="https://github.com/alokbindd" target="_blank" class="nav-link py-1 px-2" aria-label="GitHub">
 						<i class="fa fa-github"></i>
-						<span class="d-none d-md-inline"> GitHub</span>
 					</a>
 				</li>
-
-				<li class="nav-item mx-2">
-					<a href="https://linkedin.com/in/alokbind" target="_blank" class="nav-link small">
+				<li class="nav-item">
+					<a href="https://linkedin.com/in/alokbind" target="_blank" class="nav-link py-1 px-2" aria-label="LinkedIn">
 						<i class="fa fa-linkedin"></i>
-						<span class="d-none d-md-inline"> LinkedIn</span>
 					</a>
 				</li>
-
-				<li class="nav-item mx-2">
-					<a href="mailto:alokbindd@gmail.com" class="nav-link small">
+				<li class="nav-item">
+					<a href="mailto:alokbindd@gmail.com" class="nav-link py-1 px-2" aria-label="Email">
 						<i class="fa fa-envelope"></i>
-						<span class="d-none d-md-inline"> Email</span>
 					</a>
 				</li>
-
 			</ul>
-
-			<!-- RIGHT: Tech Stack + Resume + Demo Badge -->
-			<ul class="navbar-nav flex-row align-items-center">
-
-				<li class="nav-item mx-2 d-none d-lg-block text-muted small">
-					Built with
+			<!-- Right: Desktop = Built with + badges + Resume + Demo. Mobile = Resume + Demo only -->
+			<ul class="navbar-nav flex-row align-items-center mb-0 flex-nowrap">
+				<li class="nav-item mr-1 d-none d-lg-block text-muted small">Built with</li>
+				<li class="nav-item mx-1 d-none d-lg-block"><span class="badge tech-badge">Django</span></li>
+				<li class="nav-item mx-1 d-none d-lg-block"><span class="badge tech-badge">Bootstrap</span></li>
+				<li class="nav-item mx-1 d-none d-lg-block"><span class="badge tech-badge">PostgreSQL</span></li>
+				<li class="nav-item ml-1 ml-lg-2">
+					<a href="https://drive.google.com/file/d/1StqkPFDAVhRzklCqq8ukZF5s0QIOxTJr/view?usp=sharing" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill py-1">Resume</a>
 				</li>
-
-				<li class="nav-item mx-1 d-none d-lg-block">
-					<span class="badge tech-badge">Django</span>
-				</li>
-				<li class="nav-item mx-1 d-none d-lg-block">
-					<span class="badge tech-badge">Bootstrap</span>
-				</li>
-				<li class="nav-item mx-1 d-none d-lg-block">
-					<span class="badge tech-badge">PostgreSQL</span>
-				</li>
-
-				<li class="nav-item mx-2">
-					<a href="{% static 'resume/Your_Resume.pdf' %}" target="_blank"
-						class="btn btn-sm btn-outline-primary rounded-pill">
-						Resume
-					</a>
-				</li>
-
-				<li class="nav-item mx-2">
+				<li class="nav-item ml-1 ml-lg-2">
 					<span class="badge badge-warning rounded-pill">Demo Project</span>
 				</li>
-
 			</ul>
-
 		</div>
 	</nav>
 
-	<section class="header-main border-bottom py-3">
-		<div class="container-fluid px-4">
-			<div class="row align-items-center">
-
-				<!-- LOGO -->
-				<div class="col-auto">
-					<a href="{% url 'home' %}" class="brand-wrap d-flex align-items-center">
-						<img class="logo" src="{% static './images/logoo.png' %}" style="height:40px;">
-					</a>
+	<!-- 2️⃣ Main Header -->
+	<section class="header-main border-bottom bg-white">
+		<!-- DESKTOP: Single row [ Logo | Categories | Search | Store | Profile | Cart ] -->
+		<div class="container-fluid px-3 px-md-4 d-none d-lg-block py-2 py-lg-3">
+			<div class="d-flex align-items-center flex-nowrap">
+				<a href="{% url 'home' %}" class="brand-wrap d-flex align-items-center mr-3">
+					<img class="logo" src="{% static './images/logoo.png' %}" alt="StyloKart" style="height:40px;">
+				</a>
+				<div class="dropdown mr-3">
+					<button class="btn btn-primary dropdown-toggle btn-categories" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-bars mr-1"></i> All category
+					</button>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="{% url 'store' %}">All Products</a>
+						{% for category in links %}
+						<a class="dropdown-item" href="{{ category.get_url }}">{{ category.category_name }}</a>
+						{% endfor %}
+					</div>
 				</div>
+				<form action="{% url 'search' %}" method="get" class="header-search-desktop mr-3">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Search products" name="keyword" aria-label="Search">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="submit" aria-label="Submit search"><i class="fa fa-search"></i></button>
+						</div>
+					</div>
+				</form>
+				<a href="{% url 'store' %}" class="btn btn-outline-primary mr-3 d-none d-lg-inline-block">Store</a>
+				<div class="dropdown mr-3">
+					<button class="btn btn-link p-0 border-0 rounded-circle header-profile-trigger" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Account menu">
+						{% if user.is_authenticated and user_profile and user_profile.profile_picture %}
+						<img src="{{ user_profile.profile_picture.url }}" alt="Profile" class="header-avatar rounded-circle">
+						{% else %}
+						<span class="header-avatar header-avatar-default rounded-circle d-inline-flex align-items-center justify-content-center">
+							<i class="fa fa-user text-muted"></i>
+						</span>
+						{% endif %}
+					</button>
+					<div class="dropdown-menu dropdown-menu-right header-profile-dropdown">
+						<div class="dropdown-header">
+							{% if user.is_authenticated %}Hi {{ user.first_name }} 👋{% else %}Hi Guest 👋{% endif %}
+						</div>
+						{% if user.is_authenticated %}
+						<a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a>
+						<a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+						{% else %}
+						<a class="dropdown-item" href="{% url 'login' %}">Sign In</a>
+						<a class="dropdown-item" href="{% url 'register' %}">Register</a>
+						{% endif %}
+					</div>
+				</div>
+				<a href="{% url 'cart' %}" class="position-relative header-cart-link">
+					<div class="icon icon-sm rounded-circle border d-flex align-items-center justify-content-center">
+						<i class="fa fa-shopping-cart"></i>
+					</div>
+					<span class="badge badge-danger badge-pill position-absolute header-cart-badge">{{ cart_count }}</span>
+				</a>
+			</div>
+		</div>
 
-				<!-- CATEGORY + STORE -->
-				<div class="col-auto d-flex align-items-center gap-2 px-0">
-
-					<div class="dropdown">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-							<i class="fa fa-bars mr-1"></i> All category
+		<!-- MOBILE: Row 1 = [ Logo ] ... [ Profile ] [ Cart ]. Row 2 = [ ☰ Categories ] [ Search ] -->
+		<div class="container-fluid px-3 d-lg-none py-2 header-mobile">
+			<div class="row align-items-center no-gutters">
+				<!-- Row 1: Logo left, Profile + Cart right -->
+				<div class="col-12 d-flex align-items-center justify-content-between mb-2">
+					<a href="{% url 'home' %}" class="brand-wrap">
+						<img class="logo" src="{% static './images/logoo.png' %}" alt="StyloKart" style="height:40px;">
+					</a>
+					<div class="d-flex align-items-center">
+						<div class="dropdown">
+							<button class="btn btn-link p-0 border-0 rounded-circle header-profile-trigger" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Account menu">
+								{% if user.is_authenticated and user_profile and user_profile.profile_picture %}
+								<img src="{{ user_profile.profile_picture.url }}" alt="Profile" class="header-avatar rounded-circle">
+								{% else %}
+								<span class="header-avatar header-avatar-default rounded-circle d-inline-flex align-items-center justify-content-center">
+									<i class="fa fa-user text-muted"></i>
+								</span>
+								{% endif %}
+							</button>
+							<div class="dropdown-menu dropdown-menu-right header-profile-dropdown">
+								<div class="dropdown-header">{% if user.is_authenticated %}Hi {{ user.first_name }} 👋{% else %}Hi Guest 👋{% endif %}</div>
+								{% if user.is_authenticated %}
+								<a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a>
+								<a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+								{% else %}
+								<a class="dropdown-item" href="{% url 'login' %}">Sign In</a>
+								<a class="dropdown-item" href="{% url 'register' %}">Register</a>
+								{% endif %}
+							</div>
+						</div>
+						<a href="{% url 'cart' %}" class="position-relative ml-2 header-cart-link">
+							<div class="icon icon-sm rounded-circle border d-flex align-items-center justify-content-center">
+								<i class="fa fa-shopping-cart"></i>
+							</div>
+							<span class="badge badge-danger badge-pill position-absolute header-cart-badge">{{ cart_count }}</span>
+						</a>
+					</div>
+				</div>
+				<!-- Row 2: Categories + Search -->
+				<div class="col-12 d-flex align-items-center">
+					<div class="dropdown mr-2 flex-shrink-0">
+						<button class="btn btn-primary dropdown-toggle btn-categories-mobile" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fa fa-bars mr-1"></i>
 						</button>
 						<div class="dropdown-menu">
 							<a class="dropdown-item" href="{% url 'store' %}">All Products</a>
 							{% for category in links %}
-							<a class="dropdown-item" href="{{ category.get_url }}">
-								{{ category.category_name }}
-							</a>
+							<a class="dropdown-item" href="{{ category.get_url }}">{{ category.category_name }}</a>
 							{% endfor %}
 						</div>
 					</div>
-
-				</div>
-
-				<!-- SEARCH (CENTERED & FLEXIBLE) -->
-				<div class="col d-none d-md-block">
-					<form action="{% url 'search' %}" method="get">
-						<div class="input-group">
-							<input type="text" class="form-control" placeholder="Search products" name="keyword">
-							<div class="input-group-append">
-								<button class="btn btn-primary" type="submit">
-									<i class="fa fa-search"></i>
-								</button>
-							</div>
-						</div>
+					<form action="{% url 'search' %}" method="get" class="d-flex flex-grow-1 min-width-0">
+						<input type="text" class="form-control" placeholder="Search products" name="keyword" aria-label="Search">
+						<button class="btn btn-primary ml-1 flex-shrink-0" type="submit"><i class="fa fa-search"></i></button>
 					</form>
 				</div>
-				<div class="col-auto  d-flex align-items-center gap-2 px-0">
-					<a href="{% url 'store' %}" class="btn btn-outline-primary">
-						Store
-					</a>
-
-				</div>
-
-				<!-- USER + CART -->
-				<div class="col-auto">
-					<div class="d-flex align-items-center gap-3">
-
-						{% if user.id is None %}
-						<div class="text-right small">
-							<div class="text-muted">Welcome guest!</div>
-							<a href="{% url 'login' %}">Sign in</a> |
-							<a href="{% url 'register' %}">Register</a>
-						</div>
-						{% else %}
-						<div class="text-right small">
-							<div class="text-muted">Welcome {{ user.first_name }}!</div>
-							<a href="{% url 'dashboard' %}">Dashboard</a> |
-							<a href="{% url 'logout' %}">Logout</a>
-						</div>
-						{% endif %}
-
-						<a href="{% url 'cart' %}" class="position-relative">
-							<div
-								class="icon icon-sm rounded-circle border d-flex align-items-center justify-content-center">
-								<i class="fa fa-shopping-cart"></i>
-							</div>
-							<span class="badge badge-danger badge-pill position-absolute" style="top:-6px; right:-6px;">
-								{{ cart_count }}
-							</span>
-						</a>
-
-					</div>
-				</div>
-
 			</div>
 		</div>
 	</section>
-</header> <!-- section-header.// -->
+</header>
