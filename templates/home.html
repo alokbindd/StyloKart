@@ -2,17 +2,18 @@
 {% load static %}
 {% block content %}
 
-	<!-- ========================= SECTION MAIN ========================= -->
-	<section class="section-intro padding-y-sm">
-		<div class="container-fluid px-4">
-
-			<div class="intro-banner-wrap">
-				<img src="{% static 'images/banners/banner1.png' %}" class="img-fluid rounded">
+	<!-- Hero section: background image (CSS) + real HTML for SEO and accessibility -->
+	<section class="hero-section" aria-label="Welcome banner" style="background-image: url('{{ hero_image }}');">
+		<div class="hero-overlay" aria-hidden="true"></div>
+		<div class="container-fluid hero-container">
+			<div class="hero-content text-lg-left text-center">
+				<h1 class="hero-title">{{ hero_title }}</h1>
+				<p class="hero-subtitle">{{ hero_subtitle }}</p>
+				<a href="{{ hero_button_link }}" class="btn btn-primary btn-hero-cta">{{ hero_button_text }}</a>
 			</div>
-
-		</div> <!-- container-fluid px-4-fluid px-4 //  -->
+		</div>
 	</section>
-	<!-- ========================= SECTION MAIN END// ========================= -->
+
 
 	<!-- ========================= SECTION  ========================= -->
 	<section class="section-name padding-y-sm">
