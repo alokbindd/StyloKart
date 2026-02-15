@@ -81,4 +81,51 @@
   }
 }
 
+/* ---- Header design spec: mobile ---- */
+/* Top bar: compact, icons only left; Resume + Demo right, no wrap */
+@media (max-width: 991.98px) {
+  .section-header .top-bar-nav .container-fluid {
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+  .section-header .top-bar-nav .developer-links .nav-link {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .section-header .top-bar-nav .btn {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+  }
+  .section-header .top-bar-nav .badge.rounded-pill {
+    font-size: 0.7rem;
+  }
+}
+
+/* Mobile header: two-row grid, no collapse. Search takes remaining width. */
+.section-header .header-mobile .min-width-0 {
+  min-width: 0;
+}
+.section-header .header-mobile .btn-categories-mobile {
+  min-width: 44px;
+}
+.section-header .header-mobile .form-control {
+  min-height: 38px;
+}
+
+@media (max-width: 575.98px) {
+  .section-header .header-mobile .logo {
+    height: 36px !important;
+  }
+  .section-header .header-mobile .header-avatar,
+  .section-header .header-mobile .header-avatar-default {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+  .section-header .top-bar-nav .container-fluid {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
 /*# sourceMappingURL=responsive.css.map */
