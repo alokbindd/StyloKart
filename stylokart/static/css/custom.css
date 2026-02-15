@@ -197,14 +197,15 @@ ul.thumb li img {
 }
 
 /* ---- Header design spec: desktop ---- */
-/* Search bar: controlled width (max 450–550px), not full stretch */
+/* Search bar: expand to fill available space, no large gap after cart */
 .header-search-desktop {
-  width: 100%;
-  max-width: 500px;
+  flex: 1 1 auto;
   min-width: 180px;
+  max-width: none;
 }
 .header-search-desktop .input-group {
   width: 100%;
+  max-width: 100%;
 }
 
 /* Profile avatar: 40px circular */
@@ -247,11 +248,11 @@ ul.thumb li img {
   right: -6px !important;
 }
 .header-cart-link {
-  color: inherit;
+  color: #3167eb;
   text-decoration: none;
 }
 .header-cart-link:hover {
-  color: inherit;
+  color: #3167eb;
   text-decoration: none;
   opacity: 0.85;
 }
