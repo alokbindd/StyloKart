@@ -30,8 +30,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY') or config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True,cast=bool)
 
-ALLOWED_HOSTS = ['stylokart-env.eba-pydmw3zp.ap-south-1.elasticbeanstalk.com']
-
+if DEBUG:
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+else:
+    ALLOWED_HOSTS = ['stylokart-env.eba-pydmw3zp.ap-south-1.elasticbeanstalk.com']
 # Application definition
 
 INSTALLED_APPS = [
@@ -73,7 +75,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'category.context_processors.menu_links',
-                'carts.context_processors.counter'
+                'carts.context_processors.counter',
+                'accounts.context_processors.user_profile',
             ],
         },
     },
