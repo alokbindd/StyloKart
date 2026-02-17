@@ -32,7 +32,6 @@ def payments(request):
     cart_items = CartItem.objects.filter(user=current_user)
     
     for item in cart_items:
-        print("Enter loop")
         orderproduct = OrderProduct()
         orderproduct.order_id = order.id
         orderproduct.payment = payment
@@ -122,15 +121,12 @@ def place_order(request, total=0, quantity=0):
 
     if request.method == 'POST':
         form = OrderForm(request.POST)
-        print('first if')
         if not form.is_valid():
             print(form.errors)
 
         if form.is_valid():
             # store all the billing information in order table
-            print('2nd if')
             data = Order()
-            print("storing")
             data.user           = current_user
             data.first_name     = form.cleaned_data['first_name']
             data.last_name      = form.cleaned_data['last_name']
@@ -147,13 +143,11 @@ def place_order(request, total=0, quantity=0):
             data.tax            = tax
             data.ip             = request.META.get('REMOTE_ADDR')
             data.save()
-            # print('stored1')
             # Genrate order number
             current_date = datetime.date.today().strftime("%Y%m%d")
             order_number = current_date + str(data.id)
             data.order_number = order_number
             data.save()
-            # print('stored2')
 
             order = Order.objects.get(user=current_user, is_ordered=False, order_number=order_number)
             context = {
