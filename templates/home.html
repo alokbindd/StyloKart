@@ -2,17 +2,32 @@
 {% load static %}
 {% block content %}
 
-	<!-- Hero section: background image (CSS) + real HTML for SEO and accessibility -->
-	<section class="hero-section" aria-label="Welcome banner" style="background-image: url('{{ hero_image }}');">
+	<!-- Hero Carousel (banners ordered by display_order) -->
+	<section
+		id="heroCarousel"
+		class="hero-section"
+		aria-label="Hero banners"
+		tabindex="0"
+		style="background-image: url('{{ banners.0.image_url }}');"
+	>
 		<div class="hero-overlay" aria-hidden="true"></div>
 		<div class="container-fluid hero-container">
 			<div class="hero-content text-lg-left text-center">
-				<h1 class="hero-title">{{ hero_title }}</h1>
-				<p class="hero-subtitle">{{ hero_subtitle }}</p>
-				<a href="{{ hero_button_link }}" class="btn btn-primary btn-hero-cta">{{ hero_button_text }}</a>
+				<h1 id="heroTitle" class="hero-title">{{ banners.0.title }}</h1>
+				<p id="heroSubtitle" class="hero-subtitle">{{ banners.0.subtitle }}</p>
+				<a id="heroCta" href="{{ banners.0.button_link }}" class="btn btn-primary btn-hero-cta">{{ banners.0.button_text }}</a>
 			</div>
 		</div>
+
+		<button type="button" class="hero-carousel-btn hero-carousel-btn--prev" aria-label="Previous banner">
+			<span aria-hidden="true">‹</span>
+		</button>
+		<button type="button" class="hero-carousel-btn hero-carousel-btn--next" aria-label="Next banner">
+			<span aria-hidden="true">›</span>
+		</button>
 	</section>
+
+	{{ banners|json_script:"hero-banners-data" }}
 
 
 	<!-- ========================= SECTION  ========================= -->
