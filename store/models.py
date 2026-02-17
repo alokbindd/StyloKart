@@ -85,3 +85,19 @@ class ProductGallery(models.Model):
     class Meta:
         verbose_name = 'Product Gallery'
         verbose_name_plural = 'Product Gallery'
+
+class Banner(models.Model):
+    title           = models.CharField(max_length=200)
+    subtitle        = models.CharField(max_length=300, blank=True)
+    image           = models.ImageField(upload_to='banners/')
+    button_text     = models.CharField(max_length=50, default='Shop Now')
+    button_link     = models.URLField(blank=True)
+    display_order   = models.PositiveIntegerField(default=0)
+    is_active       = models.BooleanField(default=True)
+    created_at      = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['display_order']
+
+    def __str__(self):
+        return self.title
