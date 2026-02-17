@@ -278,6 +278,31 @@ ul.thumb li img {
   margin: 1rem 1.5rem;
   border-radius: 0.37rem !important;
 }
+.hero-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font-size: 32px;
+  line-height: 44px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 2;
+}
+.hero-carousel-btn:hover {
+  background: rgba(0, 0, 0, 0.45);
+}
+.hero-carousel-btn--prev {
+  left: 14px;
+}
+.hero-carousel-btn--next {
+  right: 14px;
+}
 .hero-overlay {
   position: absolute;
   inset: 0;
@@ -291,6 +316,7 @@ ul.thumb li img {
 }
 .hero-content {
   max-width: 540px;
+  padding-left: 20px;
 }
 .hero-title {
   font-size: 2rem;
@@ -339,6 +365,12 @@ ul.thumb li img {
   }
   .hero-overlay {
     background: rgba(0, 0, 0, 0.35);
+  }
+  .hero-carousel-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 28px;
+    line-height: 40px;
   }
   .hero-title {
     font-size: 1.5rem;
